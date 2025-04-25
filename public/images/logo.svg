@@ -1,0 +1,20 @@
+<svg width="320" height="100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradient for the icon -->
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2A9D8F;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#21867A;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Stylish Medical Cross -->
+  <g transform="translate(30, 25)">
+    <rect x="14" y="0" width="12" height="50" rx="6" ry="6" fill="url(#grad)" />
+    <rect x="0" y="14" width="50" height="12" rx="6" ry="6" fill="url(#grad)" />
+  </g>
+
+  <!-- Text -->
+  <text x="100" y="60" font-family="Segoe UI, sans-serif" font-size="28" fill="#7AE2CF" font-weight="bold">
+    Health Care
+  </text>
+</svg>
