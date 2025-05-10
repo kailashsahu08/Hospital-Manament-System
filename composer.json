@@ -10,6 +10,7 @@
         "althinect/filament-spatie-roles-permissions": "^2.3",
         "diogogpinto/filament-auth-ui-enhancer": "^1.0",
         "filament/filament": "^3.3",
+        "hasnayeen/themes": "^3.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1"
     },

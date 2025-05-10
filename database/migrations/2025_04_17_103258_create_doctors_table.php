@@ -42,6 +42,7 @@ return new class extends Migration
 
             $table->string('profile_picture')->nullable();
             $table->text('bio')->nullable();
+            $table->boolean('is_verified')->default(false);
             $table->timestamps();
         });
     }

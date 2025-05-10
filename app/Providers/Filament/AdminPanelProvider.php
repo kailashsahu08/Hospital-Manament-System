@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
 use App\Filament\Pages\AuthLogin;
 use App\Filament\Pages\AuthRegister;
+use App\Filament\Widgets\StatsOverview;
 use DiogoGPinto\AuthUIEnhancer\AuthUIEnhancerPlugin;
 use Filament\Enums\ThemeMode;
 use Filament\Http\Middleware\Authenticate;
@@ -16,6 +17,8 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets;
+use Hasnayeen\Themes\Http\Middleware\SetTheme;
+use Hasnayeen\Themes\ThemesPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -34,6 +37,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login(AuthLogin::class)
             ->registration(AuthRegister::class)
+            ->profile()
             ->colors([
                 'primary' => Color::Green,
             ])
@@ -48,6 +52,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
+                StatsOverview::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -59,9 +64,12 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                SetTheme::class
             ])
             ->plugins([
                 FilamentSpatieRolesPermissionsPlugin::make(),
+                ThemesPlugin::make()
+                    ->canViewThemesPage(fn () => auth()?->user()?->hasRole('admin') ?? false),
 
                 AuthUIEnhancerPlugin::make()
                     ->formPanelPosition('left')
