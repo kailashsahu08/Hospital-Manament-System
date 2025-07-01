@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-class AdminUserSeeder extends Seeder
+class DoctorUserSeeder extends Seeder
 {
     /**
      * Seed the application's database.
@@ -15,9 +15,9 @@ class AdminUserSeeder extends Seeder
     public function run()
     {
         \App\Models\User::factory()->create([
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
+            'name' => 'Doctor User',
+            'email' => 'doctor@example.com',
             'password' => Hash::make('password'),
-        ])->assignRole('admin');
+        ])->assignRole('doctor');
     }
 }

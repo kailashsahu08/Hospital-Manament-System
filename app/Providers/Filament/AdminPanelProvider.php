@@ -4,7 +4,9 @@ namespace App\Providers\Filament;
 
 use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
 use App\Filament\Pages\AuthLogin;
+use App\Filament\Pages\AuthProfile;
 use App\Filament\Pages\AuthRegister;
+use App\Filament\Widgets\CalendarWidget;
 use App\Filament\Widgets\StatsOverview;
 use DiogoGPinto\AuthUIEnhancer\AuthUIEnhancerPlugin;
 use Filament\Enums\ThemeMode;
@@ -16,7 +18,6 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets;
 use Hasnayeen\Themes\Http\Middleware\SetTheme;
 use Hasnayeen\Themes\ThemesPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -25,6 +26,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -37,7 +39,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login(AuthLogin::class)
             ->registration(AuthRegister::class)
-            ->profile()
+            ->profile(AuthProfile::class)
             ->colors([
                 'primary' => Color::Green,
             ])
@@ -53,6 +55,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 StatsOverview::class,
+                CalendarWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -69,13 +72,32 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 FilamentSpatieRolesPermissionsPlugin::make(),
                 ThemesPlugin::make()
-                    ->canViewThemesPage(fn () => auth()?->user()?->hasRole('admin') ?? false),
+                    ->canViewThemesPage(fn () => optional(auth()->user())->hasRole('admin') ?? false),
 
                 AuthUIEnhancerPlugin::make()
                     ->formPanelPosition('left')
                     ->formPanelWidth('40%')
-                    ->emptyPanelBackgroundImageUrl('https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')
+                    ->emptyPanelBackgroundImageUrl('https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'),
+
+                FilamentFullCalendarPlugin::make()
+                    ->selectable(true)
+                    ->editable(true)
+                    ->timezone('UTC')
+                    ->locale('en')
+                    ->plugins([
+                        'interaction',
+                        'dayGrid',
+                        'timeGrid',
+                        'list'
                     ])
+                    ->config([
+                        'headerToolbar' => [
+                            'left' => 'prev,next today',
+                            'center' => 'title',
+                            'right' => 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                        ],
+                    ])
+            ])
             ->authMiddleware([
                 Authenticate::class,
             ]);

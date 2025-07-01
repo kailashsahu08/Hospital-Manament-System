@@ -1,10 +1,13 @@
 <?php
 
+use App\Filament\Resources\PermissionResource;
+use App\Filament\Resources\RoleResource;
+
 return [
 
     'resources' => [
-        'PermissionResource' => \Althinect\FilamentSpatieRolesPermissions\Resources\PermissionResource::class,
-        'RoleResource' => \Althinect\FilamentSpatieRolesPermissions\Resources\RoleResource::class,
+        'PermissionResource' => PermissionResource::class,
+        'RoleResource' => RoleResource::class,
     ],
 
     'preload_roles' => true,
