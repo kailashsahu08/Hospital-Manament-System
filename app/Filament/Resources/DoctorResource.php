@@ -22,12 +22,13 @@ class DoctorResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Select::make('user_id')
-                ->relationship('user', 'name')
-                ->required(),
 
             TextInput::make('first_name')->required(),
             TextInput::make('last_name')->required(),
+            TextInput::make('email')
+                    ->email()
+                    ->required()
+                    ->maxLength(255),
             TextInput::make('phone')->tel(),
             TextInput::make('address'),
             TextInput::make('city'),
@@ -89,6 +90,7 @@ class DoctorResource extends Resource
         ])
         ->actions([
             Tables\Actions\EditAction::make(),
+            Tables\Actions\ViewAction::make(),
         ])
         ->bulkActions([
             Tables\Actions\BulkActionGroup::make([

@@ -22,13 +22,13 @@ class PatientResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Select::make('user_id')
-                ->relationship('user', 'name')
-                ->required(),
-
             TextInput::make('first_name')->required(),
             TextInput::make('last_name')->required(),
             TextInput::make('phone')->tel(),
+            TextInput::make('email')
+                    ->email()
+                    ->required()
+                    ->maxLength(255),
             TextInput::make('address'),
             TextInput::make('city'),
             TextInput::make('state'),
@@ -76,7 +76,9 @@ class PatientResource extends Resource
     public static function table(Table $table): Table
     {
         return $table->columns([
-            ImageColumn::make('profile_picture')->circular(),
+            ImageColumn::make('profile_picture')->getStateUsing(function ($record) {
+                return $record->profile_picture ?: 'https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg';
+            })->circular(),
             TextColumn::make('first_name')->searchable()->sortable(),
             TextColumn::make('last_name')->searchable()->sortable(),
             TextColumn::make('phone'),
