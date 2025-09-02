@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Hash;
 
 class Patient extends Model
 {
@@ -17,6 +18,7 @@ class Patient extends Model
         'last_name',
         'name',
         'phone',
+        'email',
         'address',
         'city',
         'state',
@@ -58,5 +60,22 @@ class Patient extends Model
     public function testReports(): HasMany
     {
         return $this->hasMany(TestReport::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($patient) {
+            $user = User::create([
+                'name' => $patient->first_name . ' ' . $patient->last_name,
+                'email' => $patient->email,
+                'password' => Hash::make($patient->email),
+            ]);
+
+            $patient->user_id = $user->id;
+
+            $patient->name = $user->name;
+        });
     }
 }
