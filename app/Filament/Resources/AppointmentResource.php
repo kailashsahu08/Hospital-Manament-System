@@ -35,17 +35,14 @@ class AppointmentResource extends Resource
         return $form->schema([
             Select::make('doctor_id')
                 ->relationship('doctor', 'first_name')
-                ->searchable()
                 ->required(),
 
             Select::make('patient_id')
                 ->relationship('patient', 'first_name')
-                ->searchable()
                 ->required(),
 
             Select::make('department_id')
                 ->relationship('department', 'name')
-                ->searchable()
                 ->required(),
 
             DatePicker::make('appointment_date')
@@ -72,6 +69,9 @@ class AppointmentResource extends Resource
                     'Virtual' => 'Virtual',
                 ])
                 ->required(),
+            Select::make('previous_appointment_id')
+                ->label('Previous Appointment')
+                ->relationship('previousAppointment', 'id'),
 
             Textarea::make('reason')
                 ->maxLength(500),

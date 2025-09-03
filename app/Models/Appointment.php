@@ -57,4 +57,9 @@ class Appointment extends Model
     {
         return $this->hasOne(Payment::class);
     }
+
+    public function previousAppointment(): BelongsTo
+    {
+        return $this->belongsTo(Appointment::class, 'previous_appointment_id');
+    }
 }
