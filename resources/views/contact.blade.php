@@ -150,7 +150,7 @@
     @include('layouts.footer')
 
     <!-- Google Maps Script -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCoIzolUXKCbmb_yDjtyGgaYAAOE8u9cYE"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google.maps_api_key') }}"></script>
     <script>
         function initMap() {
             const defaultCenter = { lat: 0, lng: 0 };
