@@ -10,7 +10,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Forms\Components\{TextInput, Select, DatePicker, FileUpload, Textarea, TimePicker};
+use Filament\Forms\Components\{Checkbox, TextInput, Select, DatePicker, FileUpload, Textarea, TimePicker};
 use Filament\Tables\Columns\{TextColumn, ImageColumn};
 
 class DoctorResource extends Resource
@@ -34,6 +34,7 @@ class DoctorResource extends Resource
             TextInput::make('city'),
             TextInput::make('state'),
             TextInput::make('zip_code'),
+            Checkbox::make('is_verified')->label('is verified')->default(false),
             DatePicker::make('date_of_birth'),
             Select::make('gender')
                 ->options([

@@ -67,8 +67,13 @@ class Patient extends Model
         parent::boot();
 
         static::creating(function ($patient) {
+            $fullName = trim(($doctor->first_name ?? '') . ' ' . ($doctor->last_name ?? ''));
+
+            if (empty($fullName)) {
+                $fullName = $doctor->name ?? 'Unknown Doctor';
+            }
             $user = User::create([
-                'name' => $patient->first_name . ' ' . $patient->last_name,
+                'name' => $fullName ,
                 'email' => $patient->email,
                 'password' => Hash::make($patient->email),
             ]);

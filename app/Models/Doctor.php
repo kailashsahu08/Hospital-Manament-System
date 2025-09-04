@@ -33,7 +33,8 @@ class Doctor extends Model
         'availability_start_time',
         'availability_end_time',
         'profile_picture',
-        'bio'
+        'bio',
+        'is_verified'
     ];
 
     /**
@@ -65,8 +66,14 @@ class Doctor extends Model
         parent::boot();
 
         static::creating(function ($doctor) {
+            $fullName = trim(($doctor->first_name ?? '') . ' ' . ($doctor->last_name ?? ''));
+
+            if (empty($fullName)) {
+                $fullName = $doctor->name ?? 'Unknown Doctor';
+            }
+
             $user = User::create([
-                'name' => $doctor->first_name . ' ' . $doctor->last_name,
+                'name' => $fullName,
                 'email' => $doctor->email,
                 'password' => Hash::make($doctor->email),
             ]);

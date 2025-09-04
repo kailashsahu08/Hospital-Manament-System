@@ -38,14 +38,15 @@ class AuthRegister extends BasePage
     {
         $isDoctor = $data['is_doctor'] ?? false;
         unset($data['is_doctor']);
-        $model =  $this->getUserModel()::create($data);
+
         if ($isDoctor) {
-            $model->assignRole('doctor');
-            Doctor::create(['user_id' => $model->id , 'name' => $data['name']]);
+            $doctor = Doctor::create($data);
+            $doctor->user->assignRole('doctor');
+            return $doctor->user; // return user model
         } else {
-            $model->assignRole('patient');
-            Patient::create(['user_id' => $model->id , 'name' => $data['name']]);
+            $patient = Patient::create($data);
+            $patient->user->assignRole('patient');
+            return $patient->user; // return user model
         }
-        return $model;
     }
 }

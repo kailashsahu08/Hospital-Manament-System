@@ -10,6 +10,6 @@ class DoctorController extends Controller
     public function getAlDoctors()
     {
         $doctors =  Doctor::all();
-        return response()->json($doctors);
+        return view('doctor', compact('doctors'));
     }
 }
