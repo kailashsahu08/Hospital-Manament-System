@@ -73,7 +73,7 @@
                 <a href="/" class="text-gray-700 hover:text-green-600 block px-3 py-2 text-base font-medium">Home</a>
                 <a href="/about" class="text-gray-700 hover:text-green-600 block px-3 py-2 text-base font-medium">About</a>
                 <a href="/contact" class="text-green-600 block px-3 py-2 text-base font-medium">Contact</a>
-                <a href="/login" class="bg-green-600 hover:bg-green-700 text-white block px-3 py-2 rounded-md text-base font-medium mt-1">Login</a>
+                <a href="/admin/login" class="bg-green-600 hover:bg-green-700 text-white block px-3 py-2 rounded-md text-base font-medium mt-1">Login</a>
             </div>
         </div>
     </nav>
