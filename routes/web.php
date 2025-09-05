@@ -20,3 +20,4 @@ Route::get('/doctors', function () {
 });
 
 Route::get('/doctors', [DoctorController::class, 'getAlDoctors']);
+Route::get('/doctors/{doctor}/appointments', [DoctorController::class, 'viewAppointments'])->name('doctors.appointments');
