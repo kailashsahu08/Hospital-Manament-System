@@ -249,8 +249,8 @@
                         </p>
 
                         <!-- Consultation Fee -->
-                        <div class="price-highlight p-4 rounded-xl inline-block">
-                            <div class="flex items-center space-x-3">
+                        <div class="price-highlight p-4 rounded-xl inline-block w-full">
+                            <div class="flex items-center space-x-3 ">
                                 <div class="p-2 bg-orange-100 rounded-lg">
                                     <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
@@ -265,13 +265,24 @@
                     </div>
 
                     <!-- Specialties -->
-                    <div class="mb-8">
-                        <h3 class="text-xl font-bold text-gray-900 mb-4">Specialties</h3>
-                        <div class="flex flex-wrap gap-3">
-                            <span class="bg-gradient-to-r from-indigo-100 to-indigo-200 text-indigo-700 px-4 py-2 rounded-full text-sm font-medium border border-indigo-300">{{ $doctor->specialization }}</span>
-                            <span class="bg-gradient-to-r from-green-100 to-green-200 text-green-700 px-4 py-2 rounded-full text-sm font-medium border border-green-300">Preventive Care</span>
-                            <span class="bg-gradient-to-r from-purple-100 to-purple-200 text-purple-700 px-4 py-2 rounded-full text-sm font-medium border border-purple-300">Emergency Treatment</span>
-                            <span class="bg-gradient-to-r from-orange-100 to-orange-200 text-orange-700 px-4 py-2 rounded-full text-sm font-medium border border-orange-300">Patient Counseling</span>
+                    <div class="mb-8 flex flex-col gap-6">
+                        <!-- Left: Specialties -->
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Specialties</h3>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="bg-gradient-to-r from-indigo-100 to-indigo-200 text-indigo-700 px-4 py-2 rounded-full text-sm font-medium border border-indigo-300">{{ $doctor->specialization }}</span>
+                                <span class="bg-gradient-to-r from-green-100 to-green-200 text-green-700 px-4 py-2 rounded-full text-sm font-medium border border-green-300">Preventive Care</span>
+                                <span class="bg-gradient-to-r from-purple-100 to-purple-200 text-purple-700 px-4 py-2 rounded-full text-sm font-medium border border-purple-300">Emergency Treatment</span>
+                                <span class="bg-gradient-to-r from-orange-100 to-orange-200 text-orange-700 px-4 py-2 rounded-full text-sm font-medium border border-orange-300">Patient Counseling</span>
+                            </div>
+                        </div>
+
+                        <!-- Right: Doctor Location Map -->
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Location</h3>
+                            <div class="rounded-xl overflow-hidden border border-gray-200 shadow">
+                                <div id="doctorMap" class="w-full h-64 rounded-xl border border-gray-200 shadow"></div>
+                            </div>
                         </div>
                     </div>
 
@@ -304,7 +315,7 @@
                         </div>
                         @endif
                     </div>
-                    
+
                 </div>
             </div>
 
@@ -315,10 +326,11 @@
                         <h2 class="text-2xl font-bold text-gray-900 mb-2">Book Appointment</h2>
                     </div>
 
-                    <form id="appointmentForm" method="POST">
+                    <form id="appointmentForm" method="POST" action="{{ route('appointments.create') }}">
                         @csrf
 
                         <!-- Calendar -->
+                        <input type="hidden" name="doctor_id" value="{{ $doctor->id }}">
                         <div class="mb-6">
                             <label class="block text-sm font-semibold text-gray-700 mb-3">Select Date</label>
                             <div class="bg-white p-4 rounded-xl border border-gray-200">
@@ -382,7 +394,7 @@
                         </div>
 
                         <!-- Book Button -->
-                        <button type="submit" class="btn-primary w-full py-4 px-6 rounded-xl text-white font-bold text-lg">
+                        <button type="submit" class="btn-primary w-full py-4 px-6 rounded-xl text-white font-bold text-lg cursor-pointer">
                             Book Appointment
                         </button>
 
@@ -396,7 +408,7 @@
     </div>
 
     @include('layouts.footer')
-
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google.maps_api_key') }}"></script>
     <script>
         let currentDate = new Date();
         let selectedDateElement = null;
@@ -495,6 +507,26 @@
         // Initialize calendar
         generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
     </script>
+    <script>
+        function initMap() {
+            const doctorLocation = {
+                    lat: {{ $doctor->latitude ?? 28.6139 }},
+                    lng: {{ $doctor->longitude ?? 77.2090 }}
+                };
+
+            const map = new google.maps.Map(document.getElementById("doctorMap"), {
+                zoom: 14,
+                center: doctorLocation,
+            });
+
+            new google.maps.Marker({
+                position: doctorLocation,
+                map: map,
+                title: "Dr. {{ $doctor->name }}'s Location"
+            });
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google.maps_api_key') }}&callback=initMap"></script>
 
 </body>
 

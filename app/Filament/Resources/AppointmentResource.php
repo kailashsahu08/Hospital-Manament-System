@@ -34,7 +34,9 @@ class AppointmentResource extends Resource
     {
         return $form->schema([
             Select::make('doctor_id')
+                ->label('Doctor')
                 ->relationship('doctor', 'first_name')
+                ->getOptionLabelFromRecordUsing(fn($record) => $record->first_name ?? 'Unnamed Doctor')
                 ->required(),
 
             Select::make('patient_id')
@@ -86,7 +88,7 @@ class AppointmentResource extends Resource
                 ->label('Previous Appointment')
                 ->relationship('previousAppointment', 'id')
                 ->searchable()
-                ->hiddenOn('create'), // optional if you only want to allow after the first one
+                ->hiddenOn('create'),
         ]);
     }
 

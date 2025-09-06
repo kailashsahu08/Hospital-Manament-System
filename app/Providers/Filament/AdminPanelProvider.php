@@ -75,7 +75,7 @@ class AdminPanelProvider extends PanelProvider
                     ->canViewThemesPage(fn () => optional(auth()->user())->hasRole('admin') ?? false),
 
                 AuthUIEnhancerPlugin::make()
-                    ->formPanelPosition('left')
+                    ->formPanelPosition('right')
                     ->formPanelWidth('40%')
                     ->emptyPanelBackgroundImageUrl('https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'),
 
