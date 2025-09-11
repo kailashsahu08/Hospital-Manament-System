@@ -183,7 +183,7 @@
                 <!-- Avatar Section -->
                 <div class="relative flex flex-col items-center mb-6">
                     <div class="relative w-full flex justify-center">
-                        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2  rounded-full p-0.5 bg-white shadow-lg">
+                        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2  rounded-full p-0.5  shadow-lg">
                             @if($doctor->profile_picture)
                             <img src="{{ asset('storage/' . $doctor->profile_picture) }}"
                                 alt="{{ $doctor->name }}"

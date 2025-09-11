@@ -77,6 +77,7 @@ class Doctor extends Model
                 'email' => $doctor->email,
                 'password' => Hash::make($doctor->email),
             ]);
+            $user->assignRole('doctor');
 
             $doctor->user_id = $user->id;
 

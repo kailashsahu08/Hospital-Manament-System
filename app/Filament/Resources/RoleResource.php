@@ -10,4 +10,15 @@ class RoleResource extends Roles
     {
         return auth()->user()?->can('view-any Roles') || auth()->user()?->can('view Role') ?? false;
     }
+
+
+    public static function getNavigationGroup(): ?string
+    {
+        return "User & settings";
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return  2;
+    }
 }

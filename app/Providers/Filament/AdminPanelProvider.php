@@ -42,6 +42,11 @@ class AdminPanelProvider extends PanelProvider
             ->profile(AuthProfile::class)
             ->colors([
                 'primary' => Color::Green,
+                'secondary' => Color::Gray,
+                'success' => Color::Green,
+                'danger' => Color::Red,
+                'warning' => Color::Yellow,
+                'info' => Color::Blue,
             ])
             ->theme(asset('css/filament/admin/theme.css'))
             ->darkMode(true)

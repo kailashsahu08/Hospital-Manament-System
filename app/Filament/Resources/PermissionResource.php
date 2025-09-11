@@ -12,4 +12,14 @@ class PermissionResource extends ResourcesPermissionResource
             || auth()->user()?->can('view Permission') 
             ?? false;
     }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return "User & settings";
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return  3;
+    }
 }

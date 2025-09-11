@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Hospital;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,6 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         $seeders = [
             RolesAndPermissionsSeeder::class,
+            HospitalSeeder::class,
             AdminUserSeeder::class,
             DoctorUserSeeder::class,
             PatientUserSeeder::class,

@@ -18,6 +18,12 @@ return new class extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
+            $table->unsignedBigInteger('hospital_id')->nullable();
+            $table->foreign('hospital_id')
+                ->references('id')
+                ->on('hospitals')
+                ->onDelete('cascade');
+            
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('email');
@@ -38,12 +44,11 @@ return new class extends Migration
             $table->string('license_number')->unique()->nullable();
             $table->integer('experience_years')->nullable();
             $table->decimal('consultation_fee', 10, 2)->nullable();
-            $table->time('availability_start_time')->nullable();
-            $table->time('availability_end_time')->nullable();
-
+            $table->json('availability_schedule')->nullable();
             $table->string('profile_picture')->nullable();
             $table->text('bio')->nullable();
             $table->boolean('is_verified')->default(false);
+            $table->boolean('is_available')->default(true);
             $table->timestamps();
         });
     }

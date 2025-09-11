@@ -2,6 +2,7 @@
 namespace App\Filament\Pages;
 
 use DiogoGPinto\AuthUIEnhancer\Pages\Auth\Concerns\HasCustomLayout;
+use Filament\Actions\Action as ActionsAction;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Set;
@@ -36,7 +37,7 @@ class AuthLogin extends BasePage
                                 ->icon('heroicon-m-user-group')
                                 ->action(function (Set $set) {
                                     $set('email','doctor@example.com');
-                                    $set('password','password');
+                                    $set('password','doctor@example.com');
                                 })
                                 ->size('sm')
                                 ->color('gray'),
@@ -46,7 +47,7 @@ class AuthLogin extends BasePage
                                 ->icon('heroicon-m-user')
                                 ->action(function (Set $set) {
                                     $set('email','patient@example.com');
-                                    $set('password','password');
+                                    $set('password','patient@example.com');
                                 })
                                 ->size('sm')
                                 ->color('gray'),
@@ -54,7 +55,15 @@ class AuthLogin extends BasePage
                         ->alignment('center')
                         ->fullWidth()
                         ->columns(3)
-                        ->columnSpanFull()
+                        ->columnSpanFull(),
+                        Actions::make([
+                            Action::make('redirect_to_external')
+                                ->label('Go to Dashboard')
+                                ->color('success')
+                                ->url('http://localhost:5173/')
+                        ])
+                        ->alignment('center')
+                        ->fullWidth(),
                     ])
                     ->statePath('data'),
             ),
