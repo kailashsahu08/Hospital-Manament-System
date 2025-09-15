@@ -14,6 +14,7 @@ class Doctor extends Model
 
     protected $fillable = [
         'user_id',
+        'hospital_id',
         'first_name',
         'last_name',
         'name',
@@ -30,11 +31,19 @@ class Doctor extends Model
         'license_number',
         'experience_years',
         'consultation_fee',
-        'availability_start_time',
-        'availability_end_time',
+        'availability_schedule',
         'profile_picture',
         'bio',
-        'is_verified'
+        'is_verified',
+        'is_available',
+    ];
+
+    protected $casts = [
+        'availability_schedule' => 'array', // ✅ JSON casting
+        'is_verified' => 'boolean',
+        'is_available' => 'boolean',
+        'date_of_birth' => 'date',
+        'consultation_fee' => 'decimal:2',
     ];
 
     /**
@@ -43,6 +52,14 @@ class Doctor extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the hospital associated with the doctor.
+     */
+    public function hospital(): BelongsTo
+    {
+        return $this->belongsTo(Hospital::class);
     }
 
     /**
@@ -80,7 +97,6 @@ class Doctor extends Model
             $user->assignRole('doctor');
 
             $doctor->user_id = $user->id;
-
             $doctor->name = $user->name;
         });
     }
