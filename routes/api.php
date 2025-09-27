@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DoctorApiController;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,12 +21,8 @@ Route::get('/welcome-api', function () {
     ]);
 });
 
-Route::get('/doctors', function () {
-    $doctors = Doctor::all();
-    return response()->json($doctors);
-});
-
-Route::get('/doctors/{id}', function ($id) {
-    $doctor = Doctor::findOrFail($id);
-    return response()->json($doctor);
-});
+Route::get('/doctors',DoctorApiController::class.'@index');
+Route::post('/doctors',DoctorApiController::class.'@store');
+Route::put('/doctors/{id}',DoctorApiController::class.'@update');
+Route::delete('/doctors/{id}',DoctorApiController::class.'@destroy');
+Route::get('/doctors/{id}',DoctorApiController::class.'@show');
