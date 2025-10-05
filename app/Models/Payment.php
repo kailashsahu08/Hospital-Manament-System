@@ -1,46 +1,40 @@
 <?php
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Payment extends Model
 {
-    use HasFactory;
+    protected $table = 'payments';
+    protected $primaryKey = 'payment_id';
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     protected $fillable = [
-        'appointment_id',
-        'patient_id',
+        'payment_id',
+        'discount_id',
+        'payment_gateway_id',
+        'status',
         'amount',
-        'payment_date',
-        'payment_method', // Credit Card, Cash, Insurance, etc.
+        'type_of_payment',
         'transaction_id',
-        'status', // Pending, Completed, Failed, Refunded
-        'invoice_number',
-        'discount',
-        'tax',
-        'total_amount',
-        'is_insured',
-        'insurance_coverage_amount',
-        'patient_responsibility',
-        'notes'
+        'payment_response',
+        'transaction_reference',
+        'submitted_by',
+        'created_at',
+        'updated_at',
+        'attraction_id',
+        'booking_id',
+        'note',
     ];
 
-    /**
-     * Get the appointment associated with the payment.
-     */
-    public function appointment(): BelongsTo
+    public function paymentGateway()
     {
-        return $this->belongsTo(Appointment::class);
+        return $this->belongsTo(PaymentGateway::class, 'payment_gateway_id', 'payment_gateway_id');
     }
 
-    /**
-     * Get the patient associated with the payment.
-     */
-    public function patient(): BelongsTo
+    public function transaction()
     {
-        return $this->belongsTo(Patient::class);
+        return $this->belongsTo(Transaction::class, 'transaction_id', 'transaction_id');
     }
 }

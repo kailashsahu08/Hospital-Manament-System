@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\DoctorApiController;
-use App\Models\Doctor;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,3 +27,6 @@ Route::post('/doctors',DoctorApiController::class.'@store');
 Route::put('/doctors/{id}',DoctorApiController::class.'@update');
 Route::delete('/doctors/{id}',DoctorApiController::class.'@destroy');
 Route::get('/doctors/{id}',DoctorApiController::class.'@show');
+Route::post('/create-payment-intent', [PaymentController::class, 'createPaymentIntent']);
+
+Route::apiResource('appointments', AppointmentController::class);
