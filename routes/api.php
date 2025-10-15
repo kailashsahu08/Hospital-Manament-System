@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DoctorApiController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Http\Request;
@@ -28,5 +29,13 @@ Route::put('/doctors/{id}',DoctorApiController::class.'@update');
 Route::delete('/doctors/{id}',DoctorApiController::class.'@destroy');
 Route::get('/doctors/{id}',DoctorApiController::class.'@show');
 Route::post('/create-payment-intent', [PaymentController::class, 'createPaymentIntent']);
-
 Route::apiResource('appointments', AppointmentController::class);
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
+// Protected routes - requires Sanctum auth
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/me', [AuthController::class, 'me']);
+});
